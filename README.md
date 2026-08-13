@@ -1,2 +1,2 @@
-# Nup211_analyses
-Scripts for RNA-seq, RT-qPCR, and downstream MS data analyses
+# Nup211_Expression_Analyses
+For downstream analysis of RNA-seq data
