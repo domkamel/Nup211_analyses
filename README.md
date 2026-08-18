@@ -110,7 +110,7 @@ The R scripts can be run without re-processing raw reads. The count matrices are
 | data/rnaseq/cesr_induced_pombase.tsv, cesr_repressed_pombase.tsv     | The same lists mapped to PomBase systematic IDs, with gene products                         |
 | data/rnaseq/Transcriptome_CESR_analysis_2x3.csv                      | Statistical analysis of CESR  genes at both time points                                     |
 | data/rtqpcr/CT_values_*.xlsx                                         | Raw Ct values                                                                               |
-| data/rtqpcr/shutoff_FC_*.csv, shutoff_mean_values_*.csv              | Fold-change and mean values produced by the RT-qPCR scripts                                 |
+| data/rtqpcr/shutoff_FC_(variable).csv, shutoff_mean_values_*.csv              | Fold-change and mean values produced by the RT-qPCR scripts                                 |
 | data/rtqpcr/supplemental_*.csv                                       | Summary tables produced by the RT-qPCR scripts                                              |
 | data/mass_spec/Nup211_IP_MS_Results.xlsx                             | Co-immunoprecipitation MS protein identifications                                           |
 | data/mass_spec/TurboID_summary.xlsx                                  | TurboID proximity labeling MS protein identifications                                       |
@@ -183,15 +183,15 @@ invisible(lapply(c(cran, bioc, names(github)), function(p) {
 
 ### RNA-seq: 16 h depletion (Salmon)
 
-salmon_scripts/ builds a decoy-aware index (k = 31) from `GCF_000002945.2_ASM294v3_rna.fna` (ASM294v3, 12,390 valid targets, 4 decoy targets) and quantifies transcript abundance using  `--validateMappings` and `-l A` (library type inferred as ISR).
+[salmon_scripts/](salmon_scripts/) builds a decoy-aware index (k = 31) from `GCF_000002945.2_ASM294v3_rna.fna` (genome build ASM294v3) and quantifies transcript abundance using  `--validateMappings` and `-l A` (library type was inferred as ISR).
 
-R_scripts/RNA-seq/ reads the resulting count matrix into DESeq2 via `DESeqDataSetFromMatrix` using rounded integer counts. Protein-coding transcripts are selected using the PomBase `gene_type` annotation.
+[R_scripts/RNA-seq/](R_scripts/RNA-seq/) reads the resulting count matrix into DESeq2 via `DESeqDataSetFromMatrix` using rounded integer counts. Protein-coding transcripts are selected using the PomBase `gene_type` annotation.
 
-_Produces:_ Table A2 /  `nup211so_16h_counts.csv` file (GSE342656) 
+_Produces:_ Table A2 /  `nup211so_16h_counts.csv` file [GSE342656](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE342656) 
 
 ### RNA-seq: 48 h depletion (STAR)
 
-star_scripts/ aligns with STAR v2.5.4b. Counting is done in R with `summarizeOverlaps` (GenomicAlignments) using `invertStrand`, against features built with `makeTxDbFromBiomart` using information from Ensembl Fungi.
+[STAR_scripts/](STAR_scripts/) aligns with STAR v2.5.4b. Counting is done in R with `summarizeOverlaps` (GenomicAlignments) using `invertStrand`, against features built with `makeTxDbFromBiomart` using information from Ensembl Fungi.
 
 *Produces:* Table A8 /  `GSE216106_DEseq2Results.csv.gz` file (GSE216106)
 
@@ -216,7 +216,7 @@ Gene sets for the dissertation analyses were initially downloaded on **2025-01-0
 Differentially expressed genes at both timepoints were compared against the core environmental stress response (CESR) gene lists defined by Chen et al. (2003). These genes are are commonly induced and repressed in response to multiple stress conditions.
 
 Gene names in the published lists were mapped to PomBase systematic IDs before
-comparison. Both the original and mapped versions are in `data/rnaseq/`. The script counts CESR-induced and CESR-repressed genes among the genes called up and down at 16 h and 48 h, and uses Fisher's exact test to assess whether the overlap exceeds what would be expected by chance.
+comparison. Both the original and mapped versions are in [data/rnaseq/](data/rnaseq/). The script counts CESR-induced and CESR-repressed genes among the genes called up and down at 16 h and 48 h, and uses Fisher's exact test to assess whether the overlap exceeds what would be expected by chance.
 
 *Produces:* Table A6
 
@@ -224,7 +224,7 @@ comparison. Both the original and mapped versions are in `data/rnaseq/`. The scr
 
 ### RT-qPCR
 
-`R_scripts/RT-qPCR/` contains one script per experiment:
+[R_scripts/RT-qPCR/](R_scripts/RT-qPCR/) contains several files:
 
 |Script|Experiment|
 |---|---|
@@ -241,7 +241,7 @@ _Produces:_ Tables A11 and A12
 
 ### Interactome (Co-IP and TurboID)
 
-R_scripts/interactome/ processes mass spectrometry hit lists, cross-references them against PomBase, and calculates statistics like protein coverage and mean relative abundance.
+[R_scripts/interactome/](R_scripts/interactome/) processes mass spectrometry hit lists, cross-references them against PomBase, and calculates statistics like protein coverage and mean relative abundance.
 
 *Produces:* Tables A13 and A14  
 
