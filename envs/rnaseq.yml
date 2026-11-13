@@ -1,0 +1,17 @@
+# General RNA-seq environment for new analyses (Apple Silicon / osx-arm64 builds).
+#
+#   conda env create -f envs/rnaseq.yml
+#   conda activate rnaseq
+#
+# Do NOT use this salmon (2.x) with the existing 1.10.3 index or to extend the
+# 16 h dataset; use envs/salmon1.10.yml for that.
+name: rnaseq
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - salmon=2.11.0
+  - star=2.7.11b
+  - htseq=2.1.2
+  - samtools=1.24
+  - sickle-trim=1.33

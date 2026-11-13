@@ -12,9 +12,24 @@
 # (GenomicAlignments) against features retrieved from Ensembl Fungi via
 # makeTxDbFromBiomart. See the accompanying R script.
 #
-# Requires: STAR
+# Requires: STAR 2.5.4b
+#
+# HISTORICAL RECORD -- documents how the published 48 h data were made. It will
+# not run unchanged on the current setup:
+#   - STAR 2.7.x (the "rnaseq" env) cannot read a genome index built by 2.5.x,
+#     and STAR 2.5.4b has no Apple Silicon build. An Intel build may still be
+#     available:  CONDA_SUBDIR=osx-64 conda create -n star2.5 star=2.5.4b
+#   - The ASM294v2 FASTA/GTF are no longer in ~/pombe-downloads.
+# For new alignments use star_align_ASM294v3.sh instead.
 
 set -euo pipefail
+
+FOUND_STAR=$(STAR --version 2>/dev/null || true)
+if [ "${FOUND_STAR}" != "2.5.4b" ] && [ "${FOUND_STAR}" != "STAR_2.5.4b" ]; then
+    echo "ERROR: this historical script needs STAR 2.5.4b, found '${FOUND_STAR:-none}'." >&2
+    echo "       For new data use STAR_scripts/star_align_ASM294v3.sh (conda activate rnaseq)." >&2
+    exit 1
+fi
 
 # ---------------------------------------------------------------------------
 # Paths

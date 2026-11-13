@@ -1,0 +1,11 @@
+# Salmon 1.10.3, pinned for the 16 h dataset (Zhong-HZ-17633_2024_12_12).
+# Matches the version that built ~/reference/salmon_index and produced ~/salmon_output.
+#
+#   conda env create -f envs/salmon1.10.yml
+#   conda activate salmon1.10
+name: salmon1.10
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - salmon=1.10.3

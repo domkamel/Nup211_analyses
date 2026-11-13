@@ -14,11 +14,24 @@
 #   12390 valid targets, 4 decoy targets, k-mer size 31
 #   index_seq_hash e5ddfa1dea4cffb5fba35639b8f02b67d98baf123e090ed7f563d061346fd29c
 #
-# Used salmon version 1.10.3  (conda activate salmon)
-#   conda activate /opt/homebrew/anaconda3/envs/salmon   (this machine)
-#   or: conda create -n salmon -c bioconda -c conda-forge salmon=1.10.3
+# Used salmon version 1.10.3
+#   conda env create -f envs/salmon1.10.yml     (first time only)
+#   conda activate salmon1.10
 
 set -euo pipefail # exit on error (-e), unset var (-u), and failing pipeline (-o pipefail)
+
+# ---------------------------------------------------------------------------
+# Version check: the index and all 16 h outputs were made with salmon 1.10.3.
+# An index built by one salmon version cannot be read by another.
+# ---------------------------------------------------------------------------
+
+REQUIRED_SALMON="1.10.3"
+FOUND_SALMON=$(salmon --version 2>/dev/null | awk '{print $2}' || true)
+if [ "${FOUND_SALMON}" != "${REQUIRED_SALMON}" ]; then
+    echo "ERROR: this script needs salmon ${REQUIRED_SALMON}, found '${FOUND_SALMON:-none}'." >&2
+    echo "       Run: conda activate salmon1.10   (or: conda env create -f envs/salmon1.10.yml)" >&2
+    exit 1
+fi
 
 REF_DIR=~/pombe-downloads
 INDEX_DIR=~/reference/salmon_index

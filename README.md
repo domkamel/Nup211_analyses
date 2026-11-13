@@ -54,7 +54,11 @@ Nup211_analyses/
 │   ├── build_salmon_index.sh          # Decoy-aware index, ASM294v3
 │   └── salmon_quant.sh                # Quantification, 16 h dataset
 ├── STAR_scripts/
-│   └── 48h_star_alignment.sh          # Alignment, 48 h dataset
+│   ├── 48h_star_alignment.sh          # Alignment, 48 h dataset (historical, STAR 2.5.4b)
+│   └── star_align_ASM294v3.sh         # Current pipeline: STAR 2.7.11b + htseq-count, ASM294v3
+├── envs/
+│   ├── salmon1.10.yml                 # Salmon 1.10.3, for the 16 h dataset
+│   └── rnaseq.yml                     # Current tools for new analyses
 ├── R_scripts/
 │   ├── RNA-seq/                       # DESeq2, filtering, plots, GSEA, GO
 │   ├── RT-qPCR/                       # Per-experiment relative quantification
@@ -127,8 +131,21 @@ Full-length versions of the dissertation appendix tables (gene set enrichment re
 
 **Command line**
 
-- Salmon v1.10.3
-- STAR v2.5.4b
+Versions used for the published analyses:
+
+- Salmon v1.10.3 (16 h)
+- STAR v2.5.4b (48 h)
+
+Conda environments (Miniforge, conda-forge + bioconda) are in [`envs/`](envs/):
+
+```bash
+conda env create -f envs/salmon1.10.yml   # salmon 1.10.3 -- reproduces / extends the 16 h data
+conda env create -f envs/rnaseq.yml       # salmon 2.11.0, STAR 2.7.11b, htseq 2.1.2, samtools 1.24
+```
+
+The salmon scripts stop if salmon 1.10.3 is not active. Salmon indexes and STAR
+genome indexes are version-specific: an index from one version cannot be read by
+another, so `salmon1.10` and `rnaseq` each need their own index.
 
 **R (≥ 4.3)** -- Used R version 4.6.0 
 
